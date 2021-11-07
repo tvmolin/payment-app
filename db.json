@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "userName": "johndoe",
+      "password": "123"
+    },
+    {
+      "id": 2,
+      "userName": "janedoe",
+      "password": "456"
+    }
+  ],
+  "transactions": [
+    {
+      "id": 1,
+      "userId": 1,
+      "targetUserId": 2,
+      "amount": -130
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "targetUserId": 1,
+      "amount": -10
+    }
+  ]
+}

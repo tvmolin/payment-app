@@ -1,9 +1,28 @@
 import { Button, TextField } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import LocalAtmIcon from "@material-ui/icons/LocalAtm";
+import { useNavigate } from "react-router";
+import useFetch from "use-http";
 
 function Login() {
+  const navigate = useNavigate();
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const { get, loading } = useFetch("http://localhost:3004", {
+    cachePolicy: "no-cache",
+  });
+
+  const attemptLogin = async (e) => {
+    e.preventDefault();
+    const data = await get(`/users?userName=${username}&password=${password}`);
+    if (data.length > 0) navigate("/home");
+    else alert("wrong username or password"); //TODO better error handling UI
+  };
+
+  const passwordReset = () => {
+    alert("Coming Soon™");
+  };
   return (
     <Layout>
       <Title>
@@ -12,6 +31,8 @@ function Login() {
       </Title>
       <LoginArea>
         <TextField
+          onChange={(e) => setUserName(e.target.value)}
+          inputProps={{ "data-testid": "UsernameField" }}
           className={"white-text-field"}
           id="outlined-basic"
           label="Username"
@@ -19,6 +40,8 @@ function Login() {
           InputLabelProps={{ className: "white-text-field-label" }}
         />
         <TextField
+          onChange={(e) => setPassword(e.target.value)}
+          inputProps={{ "data-testid": "PasswordField" }}
           className={"white-text-field"}
           id="outlined-basic"
           label="Password"
@@ -26,8 +49,12 @@ function Login() {
           InputLabelProps={{ className: "white-text-field-label" }}
         />
         <LoginActions>
-          <Button variant="contained">Sign In</Button>
-          <Button variant="outlined">Password reset</Button>
+          <Button variant="contained" onClick={attemptLogin} type='submit'>
+            Sign In
+          </Button>
+          <Button variant="outlined" onClick={passwordReset}>
+            Password reset
+          </Button>
         </LoginActions>
       </LoginArea>
     </Layout>
@@ -53,7 +80,7 @@ const Title = styled.div`
   align-items: center;
 `;
 
-const LoginArea = styled.div`
+const LoginArea = styled.form`
   display: grid;
   grid-template-rows: auto auto auto;
   grid-column: 2 / 2;

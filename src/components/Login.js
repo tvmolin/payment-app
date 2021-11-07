@@ -2,11 +2,11 @@ import { Button, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import styled from "styled-components";
 import LocalAtmIcon from "@material-ui/icons/LocalAtm";
-import { useNavigate } from "react-router";
+import { useHistory } from "react-router-dom";
 import useFetch from "use-http";
-
+import { CircularProgress } from "@material-ui/core";
 function Login() {
-  const navigate = useNavigate();
+  const history = useHistory();
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const { get, loading } = useFetch("http://localhost:3004", {
@@ -16,7 +16,7 @@ function Login() {
   const attemptLogin = async (e) => {
     e.preventDefault();
     const data = await get(`/users?userName=${username}&password=${password}`);
-    if (data.length > 0) navigate("/home");
+    if (data?.length > 0) history.push("/home");
     else alert("wrong username or password"); //TODO better error handling UI
   };
 
@@ -29,34 +29,40 @@ function Login() {
         <LocalAtmIcon style={{ width: "100px", height: "100px" }} />
         <p style={{ fontSize: "45px", marginLeft: "30px" }}>Payment App!</p>
       </Title>
-      <LoginArea>
-        <TextField
-          onChange={(e) => setUserName(e.target.value)}
-          inputProps={{ "data-testid": "UsernameField" }}
-          className={"white-text-field"}
-          id="outlined-basic"
-          label="Username"
-          variant="outlined"
-          InputLabelProps={{ className: "white-text-field-label" }}
+      {loading ? (
+        <CircularProgress
+          style={{ "grid-column": "2 / 2", "grid-row": "2 / 2", "alignSelf": 'center', 'justifySelf': 'center' }}
         />
-        <TextField
-          onChange={(e) => setPassword(e.target.value)}
-          inputProps={{ "data-testid": "PasswordField" }}
-          className={"white-text-field"}
-          id="outlined-basic"
-          label="Password"
-          variant="outlined"
-          InputLabelProps={{ className: "white-text-field-label" }}
-        />
-        <LoginActions>
-          <Button variant="contained" onClick={attemptLogin} type='submit'>
-            Sign In
-          </Button>
-          <Button variant="outlined" onClick={passwordReset}>
-            Password reset
-          </Button>
-        </LoginActions>
-      </LoginArea>
+      ) : (
+        <LoginArea>
+          <TextField
+            onChange={(e) => setUserName(e.target.value)}
+            inputProps={{ "data-testid": "UsernameField" }}
+            className={"white-text-field"}
+            id="outlined-basic"
+            label="Username"
+            variant="outlined"
+            InputLabelProps={{ className: "white-text-field-label" }}
+          />
+          <TextField
+            onChange={(e) => setPassword(e.target.value)}
+            inputProps={{ "data-testid": "PasswordField" }}
+            className={"white-text-field"}
+            id="outlined-basic"
+            label="Password"
+            variant="outlined"
+            InputLabelProps={{ className: "white-text-field-label" }}
+          />
+          <LoginActions>
+            <Button variant="contained" onClick={attemptLogin} type="submit">
+              Sign In
+            </Button>
+            <Button variant="outlined" onClick={passwordReset}>
+              Password reset
+            </Button>
+          </LoginActions>
+        </LoginArea>
+      )}
     </Layout>
   );
 }
@@ -88,7 +94,7 @@ const LoginArea = styled.form`
   grid-template-columns: auto;
   background-color: rgb(37, 37, 38);
   padding: 80px 100px;
-  align-items: center; ;
+  align-items: center;
 `;
 
 const LoginActions = styled.div`

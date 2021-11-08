@@ -16,13 +16,17 @@ function Login() {
   const attemptLogin = async (e) => {
     e.preventDefault();
     const data = await get(`/users?userName=${username}&password=${password}`);
-    if (data?.length > 0) history.push("/home");
-    else alert("wrong username or password"); //TODO better error handling UI
+    if (data?.length > 0) {
+      localStorage.setItem("currentUser", data[0].id);
+      localStorage.setItem("currentUserName", data[0].name);
+      history.push("/app/home");
+    } else alert("wrong username or password"); //TODO better error handling UI
   };
 
   const passwordReset = () => {
     alert("Coming Soon™");
   };
+
   return (
     <Layout>
       <Title>
@@ -31,7 +35,12 @@ function Login() {
       </Title>
       {loading ? (
         <CircularProgress
-          style={{ "grid-column": "2 / 2", "grid-row": "2 / 2", "alignSelf": 'center', 'justifySelf': 'center' }}
+          style={{
+            "grid-column": "2 / 2",
+            "grid-row": "2 / 2",
+            alignSelf: "center",
+            justifySelf: "center",
+          }}
         />
       ) : (
         <LoginArea>

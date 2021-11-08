@@ -32,7 +32,8 @@ function TransactionsList({ transactions }) {
           >
             <div
               style={
-                transaction.targetUserId === 1
+                transaction.targetUserId ===
+                Number(localStorage.getItem("currentUser"))
                   ? { color: "green" }
                   : { color: "red" }
               }

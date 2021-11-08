@@ -9,18 +9,17 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    enterRoom: (state, action) => {
-      state.roomId = action.payload.roomId;
+    setTransactions: (state, action) => {
+      state.transactions = action.payload.transactions;
     },
-    changeCurrentUser: (state, action) => {
-      state.userId = action.payload.userId;
+    setBalance: (state, action) => {
+      state.balance = action.payload.balance;
     },
   },
 });
 
-export const { enterRoom, changeCurrentUser } = appSlice.actions;
-export const selectRoomId = (state) => state.app.roomId;
-
-export const selectUserId = (state) => state.app.userId;
+export const { setTransactions, setBalance } = appSlice.actions;
+export const selectTransactions = (state) => state.app.transactions;
+export const selectBalance = (state) => state.app.balance;
 
 export default appSlice.reducer;

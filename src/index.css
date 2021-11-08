@@ -12,7 +12,7 @@ code {
     monospace;
 }
 
-.white-text-field .MuiOutlinedInput-notchedOutline, input {
+.white-text-field .MuiOutlinedInput-notchedOutline, input, label, svg {
   color: white !important;
   border-color: white !important;
 }

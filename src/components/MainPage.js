@@ -9,38 +9,38 @@ import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import { useHistory } from "react-router-dom";
 import TransactionsList from "./TransactionsList";
 import useFetch from "use-http";
+import { Switch, Route, useRouteMatch } from "react-router-dom";
+import NewPayment from "./NewPayment";
+import { useSelector } from "react-redux";
+import { selectBalance, selectTransactions } from "../features/appSlice";
+import useUpdateBalance from "../hooks/useUpdateBalance";
 
 function MainPage() {
+  const transactions = useSelector(selectTransactions);
+  const balance = useSelector(selectBalance);
+  let { path } = useRouteMatch();
   const history = useHistory();
   const [user, setUser] = useState({});
-  const [balance, setBalance] = useState(null);
-  const [transactions, setTransactions] = useState(null);
   const { get, loading, response } = useFetch("http://localhost:3004", {
     cachePolicy: "no-cache",
   });
+  const { updateBalanceAndTransactions } = useUpdateBalance();
 
   const fetchUser = async () => {
-    const data = await get(`/users/1`); //TODO fix hardcoded stuff
+    const data = await get(`/users/${localStorage.getItem("currentUser")}`);
     if (response.ok) setUser(data);
   };
 
-  const calculateUserBalance = async () => {
-    const myPayments = await get(`/users/1/transactions`); //TODO fix hardcoded stuff
-    const paymentsToMe = await get(`/transactions?targetUserId=1`); //TODO fix hardcoded stuff
-    setTransactions([...myPayments, ...paymentsToMe]);
-    let total = 0;
-    myPayments.forEach((transaction) => {
-      total -= transaction.amount;
-    });
-    paymentsToMe.forEach((transaction) => {
-      total += transaction.amount;
-    });
-    setBalance(total);
+  const logout = () => {
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("currentUserName");
+    history.push("/login");
   };
 
   useEffect(() => {
+    if (!localStorage.getItem("currentUser")) history.push("/login");
     fetchUser();
-    calculateUserBalance();
+    updateBalanceAndTransactions();
   }, []);
 
   return (
@@ -72,16 +72,16 @@ function MainPage() {
         <AccountTotal>
           <p>Balance: ${balance || "----"}</p>
         </AccountTotal>
-        <SideBarItem>
+        <SideBarItem onClick={() => history.push(`${path}/new-payment`)}>
           <AddCircleIcon />
           <MonetizationOnIcon />
           <p style={{ marginLeft: "10px" }}>New payment</p>
         </SideBarItem>
-        <SideBarItem>
+        <SideBarItem onClick={() => history.push(`${path}/home`)}>
           <HomeIcon />
           <p style={{ marginLeft: "10px" }}>Home</p>
         </SideBarItem>
-        <SideBarItem onClick={() => history.push("/login")}>
+        <SideBarItem onClick={logout}>
           <LogoutIcon />
           <p style={{ marginLeft: "10px" }}>Logout</p>
         </SideBarItem>
@@ -91,7 +91,14 @@ function MainPage() {
           <LocalAtmIcon style={{ width: "100px", height: "100px" }} />
           <p style={{ fontSize: "45px", marginLeft: "30px" }}>Payment App!</p>
         </Title>
-        <TransactionsList transactions={transactions} />
+        <Switch>
+          <Route path={`${path}/new-payment`}>
+            <NewPayment />
+          </Route>
+          <Route path={`${path}/home`}>
+            <TransactionsList transactions={transactions} />
+          </Route>
+        </Switch>
       </ContentArea>
     </MainLayout>
   );

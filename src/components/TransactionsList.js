@@ -9,22 +9,15 @@ function TransactionsList({ transactions }) {
     <List>
       {transactions?.map((transaction) => (
         <TransactionItem key={transaction?.id}>
-          {/* <PersonIcon
+          <img
             style={{
-              height: "100%",
               width: "100%",
               gridColumn: "1 / 1",
               gridRow: "span 2",
+              alignSelf: 'center'
             }}
-          /> */}
-          <img
-              style={{
-                width: "100%",
-                gridColumn: "1 / 1",
-                gridRow: "span 2",
-              }}
-              src={transaction?.payerImage}
-            />
+            src={transaction?.payerImage}
+          />
           <div style={{ alignSelf: "center", justifySelf: "center" }}>
             <ArrowForwardIcon />
           </div>
@@ -38,22 +31,15 @@ function TransactionsList({ transactions }) {
           >
             <MonetizationOnIcon />
           </div>
-          {/* <PersonIcon
+          <img
             style={{
-              height: "100%",
               width: "100%",
               gridColumn: "3 / 3",
               gridRow: "span 2",
+              alignSelf: 'center'
             }}
-          /> */}
-          <img
-              style={{
-                width: "100%",
-                gridColumn: "3 / 3",
-                gridRow: "span 2",
-              }}
-              src={transaction?.receiverImage}
-            />
+            src={transaction?.receiverImage}
+          />
           <span>
             {transaction?.payerName} paid {transaction?.receiverName}
           </span>
@@ -95,10 +81,10 @@ const List = styled.div`
 const TransactionItem = styled.div`
   display: grid;
   grid-template-rows: auto auto;
-  grid-template-columns: 50px 50px 50px 3fr 1fr;
+  grid-template-columns: 65px 65px 50px 3fr 1fr;
   border: 1px solid black;
   border-radius: 20px;
-  padding: 10px 50px 10px 10px;
+  padding: 30px 80px;
   margin-bottom: 10px;
   grid-gap: 20px;
 `;

@@ -3,26 +3,58 @@
     {
       "id": 1,
       "userName": "johndoe",
-      "password": "123"
+      "password": "123",
+      "name": "Johnah Doe",
+      "profilePicture": "https://vengreso.com/wp-content/uploads/2016/03/LinkedIn-Profile-Professional-Picture-Sample-Bernie-Borges-300x300.png"
     },
     {
       "id": 2,
       "userName": "janedoe",
-      "password": "456"
+      "password": "456",
+      "name": "Jeanne Doe",
+      "profilePicture": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=688&q=80"
     }
   ],
   "transactions": [
     {
-      "id": 1,
       "userId": 1,
       "targetUserId": 2,
-      "amount": -130
+      "amount": 130,
+      "comments": "BLABLA2",
+      "payerName": "Johnah Doe",
+      "receiverName": "Jeanne Doe"
     },
     {
-      "id": 2,
+      "userId": 1,
+      "targetUserId": 2,
+      "amount": 200,
+      "comments": "BLABLA3",
+      "payerName": "Johnah Doe",
+      "receiverName": "Jeanne Doe"
+    },
+    {
+      "userId": 1,
+      "targetUserId": 2,
+      "amount": 150,
+      "comments": "BLABLA1",
+      "payerName": "Johnah Doe",
+      "receiverName": "Jeanne Doe"
+    },
+    {
+      "userId": 1,
+      "targetUserId": 2,
+      "amount": 30,
+      "comments": "BLABLA4",
+      "payerName": "Johnah Doe",
+      "receiverName": "Jeanne Doe"
+    },
+    {
       "userId": 2,
       "targetUserId": 1,
-      "amount": -10
+      "amount": 600,
+      "comments": "BLABLA5",
+      "receiverName": "Johnah Doe",
+      "payerName": "Jeanne Doe"
     }
   ]
 }

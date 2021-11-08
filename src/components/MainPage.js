@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
@@ -8,26 +8,69 @@ import LocalAtmIcon from "@material-ui/icons/LocalAtm";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import { useHistory } from "react-router-dom";
 import TransactionsList from "./TransactionsList";
+import useFetch from "use-http";
 
 function MainPage() {
   const history = useHistory();
+  const [user, setUser] = useState({});
+  const [balance, setBalance] = useState(null);
+  const [transactions, setTransactions] = useState(null);
+  const { get, loading, response } = useFetch("http://localhost:3004", {
+    cachePolicy: "no-cache",
+  });
+
+  const fetchUser = async () => {
+    const data = await get(`/users/1`); //TODO fix hardcoded stuff
+    if (response.ok) setUser(data);
+  };
+
+  const calculateUserBalance = async () => {
+    const myPayments = await get(`/users/1/transactions`); //TODO fix hardcoded stuff
+    const paymentsToMe = await get(`/transactions?targetUserId=1`); //TODO fix hardcoded stuff
+    setTransactions([...myPayments, ...paymentsToMe]);
+    let total = 0;
+    myPayments.forEach((transaction) => {
+      total -= transaction.amount;
+    });
+    paymentsToMe.forEach((transaction) => {
+      total += transaction.amount;
+    });
+    setBalance(total);
+  };
+
+  useEffect(() => {
+    fetchUser();
+    calculateUserBalance();
+  }, []);
+
   return (
     <MainLayout>
       <SideBar>
         <Avatar>
-          <PersonIcon
-            style={{
-              height: "100%",
-              width: "100%",
-              gridColumn: "1 / 1",
-              gridRow: "span 2",
-            }}
-          />
-          <p>John Doe</p>
-          <p style={{ gridColumn: "2 / 2" }}>@JohnnyD</p>
+          {loading ? (
+            <PersonIcon
+              style={{
+                height: "100%",
+                width: "100%",
+                gridColumn: "1 / 1",
+                gridRow: "span 2",
+              }}
+            />
+          ) : (
+            <img
+              style={{
+                width: "100%", //TODO This is looking wonky
+                gridColumn: "1 / 1",
+                gridRow: "span 2",
+              }}
+              src={user?.profilePicture}
+            />
+          )}
+          <p>{user?.name}</p>
+          <p>@{user?.userName}</p>
         </Avatar>
         <AccountTotal>
-          <p>Balance: $135.00</p>
+          <p>Balance: ${balance || "----"}</p>
         </AccountTotal>
         <SideBarItem>
           <AddCircleIcon />
@@ -48,7 +91,7 @@ function MainPage() {
           <LocalAtmIcon style={{ width: "100px", height: "100px" }} />
           <p style={{ fontSize: "45px", marginLeft: "30px" }}>Payment App!</p>
         </Title>
-        <TransactionsList />
+        <TransactionsList transactions={transactions} />
       </ContentArea>
     </MainLayout>
   );
@@ -67,7 +110,7 @@ const SideBar = styled.div`
   background-color: rgb(37, 37, 38);
   padding: 30px;
   grid-template-columns: auto;
-  grid-template-rows: 100px 100px 50px 50px 50px;
+  grid-template-rows: 50px 100px 50px 50px 50px;
   grid-gap: 15px;
 `;
 
@@ -76,13 +119,6 @@ const Avatar = styled.div`
   grid-template-columns: 1.5fr 2fr;
   grid-template-rows: auto auto;
   grid-gap: 5px;
-`;
-
-const AvatarPicture = styled.div`
-  height: "100%";
-  width: "100%";
-  grid-column: "1 / 1";
-  grid-row: "span 2";
 `;
 
 const AccountTotal = styled.div`

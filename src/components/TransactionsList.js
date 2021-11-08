@@ -2,34 +2,46 @@ import styled from "styled-components";
 import React from "react";
 import PersonIcon from "@mui/icons-material/Person";
 
-function TransactionsList() {
+function TransactionsList({ transactions }) {
   return (
     <List>
-      <TransactionItem>
-        <PersonIcon
-          style={{
-            height: '100%',
-            width: '100%',
-            gridColumn: "1 / 1",
-            gridRow: "span 2",
-          }}
-        />
-        <span>Jane Doe paid John Doe</span>
-        <span style={{ gridColumn: "2 / 2", gridRow: "2 / 2" }}>
-          PaymentComments: BBLABLBALBALB
-        </span>
-        <span
-          style={{
-            gridRow: "span 2",
-            gridColumn: "3 / 3",
-            alignSelf: "center",
-            justifySelf: "end",
-            fontSize: "30px",
-          }}
-        >
-          $85.00
-        </span>
-      </TransactionItem>
+      {transactions?.map((transaction) => (
+        <TransactionItem>
+          <PersonIcon
+            style={{
+              height: "100%",
+              width: "100%",
+              gridColumn: "1 / 1",
+              gridRow: "span 2",
+            }}
+          />
+          <span>
+            {transaction.payerName} paid {transaction.receiverName}
+          </span>
+          <span style={{ gridColumn: "2 / 2", gridRow: "2 / 2" }}>
+            PaymentComments: {transaction.comments}
+          </span>
+          <span
+            style={{
+              gridRow: "span 2",
+              gridColumn: "3 / 3",
+              alignSelf: "center",
+              justifySelf: "end",
+              fontSize: "30px",
+            }}
+          >
+            <div
+              style={
+                transaction.targetUserId === 1
+                  ? { color: "green" }
+                  : { color: "red" }
+              }
+            >
+              ${transaction.amount}
+            </div>
+          </span>
+        </TransactionItem>
+      ))}
     </List>
   );
 }

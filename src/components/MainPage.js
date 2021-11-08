@@ -62,18 +62,18 @@ function MainPage() {
           ) : (
             <img
               style={{
-                width: "100%", //TODO This is looking wonky
+                width: "100%",
                 gridColumn: "1 / 1",
                 gridRow: "span 2",
               }}
               src={user?.profilePicture}
             />
           )}
-          <p>{user?.name}</p>
-          <p>@{user?.userName}</p>
+          <div style={{ alignSelf: "end" }}>{user?.name}</div>
+          <div style={{ alignSelf: "start" }}>@{user?.userName}</div>
         </Avatar>
         <AccountTotal>
-          <p>Balance: ${balance || "----"}</p>
+          <p style={{fontSize: '25px'}}>Balance: ${balance || "----"}</p>
         </AccountTotal>
         <SideBarItem onClick={() => history.push(`${path}/new-payment`)}>
           <AddCircleIcon />
@@ -120,12 +120,13 @@ const SideBar = styled.div`
   background-color: rgb(37, 37, 38);
   padding: 30px;
   grid-template-columns: auto;
-  grid-template-rows: 50px 100px 50px 50px 50px;
+  grid-template-rows: min-content 100px 50px 50px 50px;
   grid-gap: 15px;
 `;
 
 const Avatar = styled.div`
   display: grid;
+  align-items: center;
   grid-template-columns: 1.5fr 2fr;
   grid-template-rows: auto auto;
   grid-gap: 5px;

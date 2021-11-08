@@ -27,6 +27,8 @@ function NewPayment() {
       comments,
       receiverName: selectedReceiver.label,
       payerName: localStorage.getItem("currentUserName"),
+      payerImage: localStorage.getItem("currentUserPicture"),
+      receiverImage: selectedReceiver.profilePicture,
     });
     if (response.ok) {
       alert("Payment successful!");
@@ -41,7 +43,7 @@ function NewPayment() {
     const data = await get(`/users`);
     const mappedUsers = data
       .filter((item) => item.id !== Number(localStorage.getItem("currentUser")))
-      .map((item) => ({ id: item.id, label: item.name }));
+      .map((item) => ({ id: item.id, label: item.name, ...item }));
     setUsers(mappedUsers);
   };
 

@@ -19,6 +19,7 @@ function Login() {
     if (data?.length > 0) {
       localStorage.setItem("currentUser", data[0].id);
       localStorage.setItem("currentUserName", data[0].name);
+      localStorage.setItem("currentUserPicture", data[0].profilePicture);
       history.push("/app/home");
     } else alert("wrong username or password"); //TODO better error handling UI
   };

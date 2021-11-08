@@ -21,7 +21,7 @@ function NewPayment() {
 
   const makePayment = async () => {
     await post(`/transactions`, {
-      userId: localStorage.getItem("currentUser"),
+      userId: Number(localStorage.getItem("currentUser")),
       targetUserId: selectedReceiver.id,
       amount: Number(amount),
       comments,
@@ -40,7 +40,7 @@ function NewPayment() {
   const getAvailableUsers = async () => {
     const data = await get(`/users`);
     const mappedUsers = data
-      .filter((item) => item.id !== 1)
+      .filter((item) => item.id !== Number(localStorage.getItem("currentUser")))
       .map((item) => ({ id: item.id, label: item.name }));
     setUsers(mappedUsers);
   };

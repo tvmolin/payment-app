@@ -14,6 +14,7 @@ import NewPayment from "./NewPayment";
 import { useSelector } from "react-redux";
 import { selectBalance, selectTransactions } from "../features/appSlice";
 import useUpdateBalance from "../hooks/useUpdateBalance";
+import useInterval from "@use-it/interval";
 
 function MainPage() {
   const transactions = useSelector(selectTransactions);
@@ -42,6 +43,8 @@ function MainPage() {
     fetchUser();
     updateBalanceAndTransactions();
   }, []);
+
+  useInterval(updateBalanceAndTransactions, 3000);
 
   return (
     <MainLayout>

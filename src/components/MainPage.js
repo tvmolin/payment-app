@@ -73,7 +73,7 @@ function MainPage() {
           <div style={{ alignSelf: "start" }}>@{user?.userName}</div>
         </Avatar>
         <AccountTotal>
-          <p style={{fontSize: '25px'}}>Balance: ${balance || "----"}</p>
+          <p style={{ fontSize: "25px" }}>Balance: ${balance || "----"}</p>
         </AccountTotal>
         <SideBarItem onClick={() => history.push(`${path}/new-payment`)}>
           <AddCircleIcon />

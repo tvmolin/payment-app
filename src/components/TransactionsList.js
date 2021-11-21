@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import React from "react";
-import PersonIcon from "@mui/icons-material/Person";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 
@@ -14,7 +13,7 @@ function TransactionsList({ transactions }) {
               width: "100%",
               gridColumn: "1 / 1",
               gridRow: "span 2",
-              alignSelf: 'center'
+              alignSelf: "center",
             }}
             src={transaction?.payerImage}
           />
@@ -36,7 +35,7 @@ function TransactionsList({ transactions }) {
               width: "100%",
               gridColumn: "3 / 3",
               gridRow: "span 2",
-              alignSelf: 'center'
+              alignSelf: "center",
             }}
             src={transaction?.receiverImage}
           />

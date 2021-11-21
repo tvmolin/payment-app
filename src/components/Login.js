@@ -16,7 +16,6 @@ function Login() {
   const attemptLogin = async (e) => {
     e.preventDefault();
     const data = await get(`/users?userName=${username}&password=${password}`);
-    console.log("***BUCETA*** " + data);
     if (data?.length > 0) {
       localStorage.setItem("currentUser", data[0].id);
       localStorage.setItem("currentUserName", data[0].name);

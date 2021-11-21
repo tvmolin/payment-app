@@ -107,6 +107,7 @@ function NewPayment() {
             sx={{ width: 300 }}
             renderInput={(params) => (
               <TextField
+                inputProps={{ "data-testid": "PaymentReceiverField" }}
                 InputLabelProps={{ className: "white-text-field-label" }}
                 className={"white-text-field"}
                 {...params}

@@ -12,10 +12,10 @@
     "@mui/material": "^5.0.6",
     "@reduxjs/toolkit": "^1.6.2",
     "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
+    "@testing-library/react": "^10.4.9",
     "@testing-library/user-event": "^7.2.1",
     "@use-it/interval": "^1.0.0",
-    "history": "^5.1.0",
+    "history": "^4.10.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
@@ -45,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "msw": "^0.35.0"
   }
 }

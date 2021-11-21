@@ -16,6 +16,7 @@ function Login() {
   const attemptLogin = async (e) => {
     e.preventDefault();
     const data = await get(`/users?userName=${username}&password=${password}`);
+    console.log("***BUCETA*** " + data);
     if (data?.length > 0) {
       localStorage.setItem("currentUser", data[0].id);
       localStorage.setItem("currentUserName", data[0].name);
@@ -37,8 +38,8 @@ function Login() {
       {loading ? (
         <CircularProgress
           style={{
-            "grid-column": "2 / 2",
-            "grid-row": "2 / 2",
+            gridColumn: "2 / 2",
+            gridRow: "2 / 2",
             alignSelf: "center",
             justifySelf: "center",
           }}
